@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    tools:context=".ExternalActivity">
+
+    <Button
+        android:id="@+id/buttonBuatExternalFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/buat_external_file" />
+
+    <Button
+        android:id="@+id/buttonBacaExternalFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/baca_external_file" />
+
+    <Button
+        android:id="@+id/buttonHapusExternalFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hapus_external_file" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/isi_file_anda"
+        android:labelFor="@+id/textBacaExternal" />
+
+    <EditText
+        android:id="@+id/textBacaExternal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:padding="5dp"
+        android:textColor="@android:color/darker_gray"
+        android:textColorHint="#000000"
+        android:importantForAutofill="no" />
+
+</LinearLayout>
