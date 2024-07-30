@@ -76,8 +76,10 @@ public class TambahActivity extends AppCompatActivity implements View.OnClickLis
 
     void buatFile(String namaFile, String isiCatatan){
 
-        File file = new File(getFilesDir(), namaFile);
+        File directory = new File(getFilesDir() + "/catatan");
+        if (!directory.exists()) directory.mkdir();
 
+        File file = new File(getFilesDir() + "/catatan", namaFile);
         FileOutputStream outputStream;
         try {
             if(file.createNewFile()){
