@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Aplikasi SQLite</string>
     <string name="tambah_kontak">Tambah kontak</string>
     <string name="input_nama">Input Nama</string>
     <string name="input_alamat">Input Alamat</string>
