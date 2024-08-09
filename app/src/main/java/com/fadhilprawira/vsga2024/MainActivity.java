@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager manager;
     private Sensor mLight;
     private TextView textView;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +36,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mLight = manager.getDefaultSensor(Sensor.TYPE_LIGHT);
         textView = findViewById(R.id.textView);
-
+        imageView = findViewById(R.id.imageView);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         float lux = event.values[0];
         textView.setText(getString(R.string.nilai_sensor_cahaya_n, lux));
+
+        if(lux <1000){
+            imageView.setImageResource(R.drawable.face_smile_regular);
+        } else {
+            imageView.setImageResource(R.drawable.face_sad_cry_regular);
+        }
 
     }
 
