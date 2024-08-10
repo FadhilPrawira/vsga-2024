@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">VSGA 2024</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="google_maps_key">YOUR_API_KEY</string>
 </resources>
