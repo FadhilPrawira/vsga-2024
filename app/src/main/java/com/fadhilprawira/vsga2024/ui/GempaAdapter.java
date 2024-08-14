@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fadhilprawira.vsga2024.R;
 import com.fadhilprawira.vsga2024.data.response.GempaItem;
+import com.fadhilprawira.vsga2024.utils.DateTimeUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,7 +50,7 @@ public class GempaAdapter extends RecyclerView.Adapter<GempaAdapter.ViewHolder> 
         GempaItem gempa = listGempa.get(position);
 
         viewHolder.tvGempaMagnitude.setText(gempa.getMagnitude());
-        viewHolder.tvGempaDatetime.setText(formatDateTime(gempa.getDateTime()));
+        viewHolder.tvGempaDatetime.setText(DateTimeUtils.formatDateTime(gempa.getDateTime()));
         viewHolder.tvGempaWilayah.setText(gempa.getWilayah());
         viewHolder.tvGempaMmiDirasakan.setText(gempa.getDirasakan());
 
@@ -86,30 +87,6 @@ public class GempaAdapter extends RecyclerView.Adapter<GempaAdapter.ViewHolder> 
             tvGempaWilayah = view.findViewById(R.id.tv_gempa_wilayah);
             tvGempaMmiDirasakan = view.findViewById(R.id.tv_gempa_mmi_dirasakan);
         }
-    }
-
-    private String formatDateTime(String dateTime) {
-        // Input format: 2024-08-12T11:36:13+00:00
-        SimpleDateFormat inputFormat = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault());
-        }
-        inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-        // Output format: 12 August 2024 18:36 WIB
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm z", Locale.getDefault());
-        outputFormat.setTimeZone(TimeZone.getTimeZone("Asia/Jakarta")); // WIB
-
-        try {
-            Date date = inputFormat.parse(dateTime);
-            if (date != null) {
-                return outputFormat.format(date);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return dateTime; // Return original if parsing fails
     }
 
 }

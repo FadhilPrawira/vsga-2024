@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -12,49 +12,140 @@
 
         <ImageView
             android:id="@+id/img_shake_map"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:scaleType="fitCenter"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"
             tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/tv_gempa_magnitude"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:layout_toEndOf="@id/img_shake_map"
             android:textSize="30sp"
             android:textStyle="bold"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/img_shake_map"
+            app:layout_constraintEnd_toStartOf="@+id/tv_gempa_kedalaman"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_shake_map"
             tools:text="@string/gempa_magnitude" />
 
         <TextView
-            android:id="@+id/tv_gempa_wilayah"
+            android:id="@+id/tv_magnitude_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Magnitude"
+            app:layout_constraintEnd_toEndOf="@id/tv_gempa_magnitude"
+            app:layout_constraintStart_toStartOf="@id/tv_gempa_magnitude"
+            app:layout_constraintTop_toBottomOf="@id/tv_gempa_magnitude" />
+
+        <TextView
+            android:id="@+id/tv_gempa_kedalaman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tv_gempa_lintang"
+            app:layout_constraintStart_toEndOf="@+id/tv_gempa_magnitude"
+            app:layout_constraintTop_toTopOf="@id/tv_gempa_magnitude"
+            tools:text="@string/gempa_kedalaman" />
+
+        <TextView
+            android:id="@+id/tv_kedalaman_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kedalaman"
+            app:layout_constraintEnd_toEndOf="@id/tv_gempa_kedalaman"
+            app:layout_constraintStart_toStartOf="@id/tv_gempa_kedalaman"
+            app:layout_constraintTop_toBottomOf="@id/tv_gempa_kedalaman" />
+
+        <TextView
+            android:id="@+id/tv_gempa_lintang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_gempa_kedalaman"
+            app:layout_constraintTop_toTopOf="@id/tv_gempa_magnitude"
+            tools:text="@string/gempa_lintang" />
+
+        <TextView
+            android:id="@+id/tv_gempa_bujur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/tv_gempa_lintang"
+            app:layout_constraintStart_toStartOf="@id/tv_gempa_lintang"
+            app:layout_constraintTop_toBottomOf="@id/tv_gempa_lintang"
+            tools:text="@string/gempa_bujur" />
+
+        <TextView
+            android:id="@+id/tv_waktu_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Waktu"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_magnitude_label" />
+
+        <TextView
+            android:id="@+id/tv_gempa_datetime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_waktu_label"
+            tools:text="@string/gempa_datetime" />
+
+        <TextView
+            android:id="@+id/tv_wilayah_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:text="Wilayah dirasakan (Skala MMI)"
             android:textSize="20sp"
-            card_view:layout_constraintEnd_toEndOf="@+id/tv_gempa_magnitude"
-            card_view:layout_constraintStart_toStartOf="@+id/tv_gempa_magnitude"
-            card_view:layout_constraintTop_toBottomOf="@+id/tv_gempa_magnitude"
-            tools:text="@string/gempa_wilayah" />
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_gempa_datetime" />
 
         <TextView
             android:id="@+id/tv_gempa_mmi_dirasakan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            card_view:layout_constraintEnd_toEndOf="@+id/tv_gempa_wilayah"
-            card_view:layout_constraintStart_toStartOf="@+id/tv_gempa_wilayah"
-            card_view:layout_constraintTop_toBottomOf="@+id/tv_gempa_wilayah"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_wilayah_label"
             tools:text="@string/gempa_mmi_dirasakan" />
+
+        <TextView
+            android:id="@+id/tv_lokasi_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Lokasi gempa"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_gempa_mmi_dirasakan" />
+
+        <TextView
+            android:id="@+id/tv_gempa_wilayah"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_lokasi_label"
+            tools:text="@string/gempa_wilayah" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

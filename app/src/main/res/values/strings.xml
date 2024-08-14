@@ -1,12 +1,19 @@
 <resources>
     <string name="app_name">Proyek Akhir VSGA 2024</string>
     <string name="detail_gempa">Detail Gempa Bumi</string>
-    <string name="gempa_datetime">2024-08-12T11:36:13+00:00</string>
-    <string name="gempa_wilayah">Pusat gempa berada di Laut, 125km BaratLaut Pulaudoi</string>
-    <string name="gempa_magnitude">5.3</string>
-    <string name="gempa_mmi_dirasakan">II-III Tagulandang</string>
     <string name="about_me">Tentang Saya</string>
+    <string name="gempa_tanggal">12 Agu 2024</string>
+    <string name="gempa_jam">18:36:13 WIB</string>
+    <string name="gempa_datetime">2024-08-12T11:36:13+00:00</string>
+    <string name="gempa_coordinates">2.38,126.65</string>
+    <string name="gempa_lintang">2.38 LU</string>
+    <string name="gempa_bujur">126.65 BT</string>
+    <string name="gempa_magnitude">5.3</string>
+    <string name="gempa_kedalaman">10 Km</string>
+    <string name="gempa_wilayah">Pusat gempa berada di Laut, 125km BaratLaut Pulaudoi</string>
+    <string name="gempa_mmi_dirasakan">II-III Tagulandang</string>
     <string name="about_project">Proyek Tugas Akhir VSGA 2024. Aplikasi ini mengambil data 15 gempa bumi yang dirasakan dari BMKG kemudian ditampilkan menggunakan RecyclerView. Ketika gempa bumi diklik, maka akan mengarahkan ke halaman Detail Gempa Bumi dan menampilkan Shake Map. Library yang digunakan: Retrofit, Glide, dan CircleImageView.</string>
     <string name="email">fadhilprawira87@gmail.com</string>
     <string name="name">FADHIL PRAWIRA</string>
+    <string name="refresh">refresh</string>
 </resources>

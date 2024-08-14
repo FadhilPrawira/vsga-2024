@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 import com.fadhilprawira.vsga2024.R;
 import com.fadhilprawira.vsga2024.data.response.GempaItem;
 import com.fadhilprawira.vsga2024.databinding.ActivityGempaDetailBinding;
+import com.fadhilprawira.vsga2024.utils.DateTimeUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +44,10 @@ public class GempaDetailActivity extends AppCompatActivity {
             binding.tvGempaMagnitude.setText(gempa.getMagnitude());
             binding.tvGempaWilayah.setText(gempa.getWilayah());
             binding.tvGempaMmiDirasakan.setText(gempa.getDirasakan());
+            binding.tvGempaLintang.setText(gempa.getLintang());
+            binding.tvGempaBujur.setText(gempa.getBujur());
+            binding.tvGempaKedalaman.setText(gempa.getKedalaman());
+            binding.tvGempaDatetime.setText(DateTimeUtils.formatDateTime(gempa.getDateTime()));
         }
 
         // Load the shakemap image with Glide
