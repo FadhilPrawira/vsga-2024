@@ -13,13 +13,8 @@ import com.fadhilprawira.vsga2024.R;
 import com.fadhilprawira.vsga2024.data.response.GempaItem;
 import com.fadhilprawira.vsga2024.utils.DateTimeUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 public class GempaAdapter extends RecyclerView.Adapter<GempaAdapter.ViewHolder> {
 

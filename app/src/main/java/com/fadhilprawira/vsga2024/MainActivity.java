@@ -1,9 +1,6 @@
 package com.fadhilprawira.vsga2024;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,7 +32,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FloatingActionButton fab;
     private ActivityMainBinding binding;
     private static final String TAG = "MainActivity";
     private GempaAdapter gempaAdapter;
@@ -50,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.app_name); // Set title from strings.xml
         }
 
-        fab = binding.fabRefresh;
+        FloatingActionButton fab = binding.fabRefresh;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,19 +90,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void fetchGempaData() {
-        if (!isNetworkAvailable()) {
-            showLoading(false); // Hide the ProgressBar if it was shown
-            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
-            // Optionally, show a TextView with a message
-            binding.textViewNoInternet.setVisibility(View.VISIBLE); // Ensure you have this TextView in your layout
-            return;
-        }
-
         showLoading(true);
+        binding.textViewNoInternet.setVisibility(View.GONE);
+        binding.rvGempa.setVisibility(View.VISIBLE);
 
         ApiConfig.getApiService().getInfogempa().enqueue(new Callback<DaftarGempaResponse>() {
             @Override
-            public void onResponse(Call<DaftarGempaResponse> call, Response<DaftarGempaResponse> response) {
+            public void onResponse(@NonNull Call<DaftarGempaResponse> call, @NonNull Response<DaftarGempaResponse> response) {
                 showLoading(false);  // Hide ProgressBar when data is loaded
                 binding.swipeRefreshLayout.setRefreshing(false); // Stop refresh animation on failure
                 if (response.isSuccessful() && response.body() != null) {
@@ -115,22 +105,26 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "Data successfully fetched and adapter updated");
                 } else {
                     Log.e(TAG, "onResponse: Failed to get data");
+                    Toast.makeText(MainActivity.this, "Failed to get data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<DaftarGempaResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<DaftarGempaResponse> call, @NonNull Throwable t) {
                 Log.d(TAG, "fetchGempaData onFailure called");
                 Log.e(TAG, "onFailure: " + t.getMessage(), t);
-                showLoading(false);  // Hide ProgressBar on failure
-
-                // Show no internet connection message
-                if (!isNetworkAvailable()) {
+                showLoading(false); // Hide the ProgressBar if it was shown
+                binding.swipeRefreshLayout.setRefreshing(false); // Stop refresh animation on failure
+                if (gempaAdapter.getItemCount() > 0) {
+                    // RecyclerView has data, show it and the toast
                     Toast.makeText(MainActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
-                    binding.textViewNoInternet.setVisibility(View.VISIBLE);
+                    binding.rvGempa.setVisibility(View.VISIBLE); // Ensure the RecyclerView stays visible
+                    binding.textViewNoInternet.setVisibility(View.GONE); // Hide the textViewNoInternet
                 } else {
-                    Toast.makeText(MainActivity.this, "Request timed out or other error", Toast.LENGTH_SHORT).show();
-                    binding.textViewNoInternet.setVisibility(View.GONE);
+                    // RecyclerView is empty, show the toast and textViewNoInternet
+                    Toast.makeText(MainActivity.this, "No internet connection, data cannot be loaded", Toast.LENGTH_SHORT).show();
+                    binding.textViewNoInternet.setVisibility(View.VISIBLE); // Show the textViewNoInternet
+                    binding.rvGempa.setVisibility(View.GONE); // Hide the RecyclerView
                 }
             }
 
@@ -144,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "ProgressBar set to GONE");
             binding.progressBar.setVisibility(View.GONE);
+            binding.swipeRefreshLayout.setRefreshing(false); // Ensure SwipeRefreshLayout stops refreshing
         }
     }
 
@@ -168,9 +163,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-    }
 }

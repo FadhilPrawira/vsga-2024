@@ -1,10 +1,19 @@
 package com.fadhilprawira.vsga2024.ui;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.fadhilprawira.vsga2024.R;
 import com.fadhilprawira.vsga2024.data.response.GempaItem;
 import com.fadhilprawira.vsga2024.databinding.ActivityGempaDetailBinding;
@@ -15,6 +24,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 public class GempaDetailActivity extends AppCompatActivity {
 
@@ -41,22 +54,85 @@ public class GempaDetailActivity extends AppCompatActivity {
             gempa = getIntent().getParcelableExtra(EXTRA_ITEM);
         }
         if (gempa != null) {
-            binding.tvGempaMagnitude.setText(gempa.getMagnitude());
-            binding.tvGempaWilayah.setText(gempa.getWilayah());
-            binding.tvGempaMmiDirasakan.setText(gempa.getDirasakan());
-            binding.tvGempaLintang.setText(gempa.getLintang());
-            binding.tvGempaBujur.setText(gempa.getBujur());
-            binding.tvGempaKedalaman.setText(gempa.getKedalaman());
-            binding.tvGempaDatetime.setText(DateTimeUtils.formatDateTime(gempa.getDateTime()));
+            binding.tvGempaMagnitudeDetail.setText(gempa.getMagnitude());
+            binding.tvGempaWilayahDetail.setText(gempa.getWilayah());
+            binding.tvGempaMmiDirasakanDetail.setText(gempa.getDirasakan());
+            binding.tvGempaLintangDetail.setText(gempa.getLintang());
+            binding.tvGempaBujurDetail.setText(gempa.getBujur());
+            binding.tvGempaKedalamanDetail.setText(gempa.getKedalaman());
+            binding.tvGempaDatetimeDetail.setText(DateTimeUtils.formatDateTime(gempa.getDateTime()));
         }
 
-        // Load the shakemap image with Glide
         if (gempa != null) {
             shakemapUrl = generateShakemapUrl(gempa.getDateTime());
-            Glide.with(this)
-                    .load(shakemapUrl)
-                    .into(binding.imgShakeMap);
+
+            if (isNetworkAvailable()) {
+                loadShakemapImage(shakemapUrl);
+            } else {
+                binding.tvImageStatus.setText(R.string.no_internet_connection_map_cannot_be_displayed);
+                binding.tvImageStatus.setVisibility(View.VISIBLE);
+            }
         }
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
+    private void loadShakemapImage(String url) {
+        // Show loading indicator and text
+        binding.progressBarImage.setVisibility(View.VISIBLE);
+        binding.tvImageStatus.setText(R.string.downloading_image);
+        binding.tvImageStatus.setVisibility(View.VISIBLE);
+
+        // Set a timeout of 15 second (15000 milliseconds)
+        int timeout = 15000;
+
+        // Create a custom Glide request
+        RequestOptions options = new RequestOptions()
+                .timeout(timeout);
+
+        // Create a target to handle the image loading
+        Target<Drawable> target = new CustomTarget<Drawable>() {
+            @Override
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                binding.imgShakeMapDetail.setImageDrawable(resource);
+                binding.progressBarImage.setVisibility(View.GONE);
+                binding.tvImageStatus.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                binding.progressBarImage.setVisibility(View.GONE);
+                binding.tvImageStatus.setText(R.string.download_image_failure);
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+                // Do nothing
+            }
+        };
+
+        // Start the image loading
+        Glide.with(this)
+                .load(url)
+                .apply(options)
+                .into(target);
+
+        // Set a timer to check if the download is taking too long
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (binding.progressBarImage.getVisibility() == View.VISIBLE) {
+                    // If the progress bar is still visible after the timeout, consider it a failure
+                    binding.progressBarImage.setVisibility(View.GONE);
+                    binding.tvImageStatus.setText(R.string.download_image_failure);
+                    Glide.with(GempaDetailActivity.this).clear(target);
+                }
+            }
+        }, timeout + 100); // Add a small buffer to the timeout
     }
 
     // Helper method to generate Shakemap URL
@@ -91,5 +167,4 @@ public class GempaDetailActivity extends AppCompatActivity {
 
         return null; // Return null if parsing or formatting fails
     }
-
 }
